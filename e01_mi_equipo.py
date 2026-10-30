@@ -1,0 +1,22 @@
+import ipaddress
+import sys
+
+entrada = input("Red en formato CIDR (ej. 192.168.10.0/26): ")
+
+try:
+    red = ipaddress.ip_network(entrada, strict=False)
+except ValueError:
+    print("Dirección no válida")
+    raise SystemExit(1)
+
+print("Red:", red.network_address)
+print("Máscara:", red.netmask)
+print("Prefijo: /" + str(red.prefixlen))
+print("Broadcast:", red.broadcast_address)
+
+# Mostrar los hosts útiles
+if red.num_addresses < 4:
+    print("Sin hosts útiles")
+else:
+    print("Primer host:", red.network_address + 1)
+    print("Último host:", red.broadcast_address - 1)
